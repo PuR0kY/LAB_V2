@@ -41,7 +41,7 @@
                 <TextBlock Margin="0,10,0,0">Path to Where to Copy:</TextBlock>
                 <ComboBox IsEditable="True" x:Name="LocalApps"/>
 
-                <Button x:Name="StartButton" Content="Start" Click="StartButton" />
+                <Button x:Name="Start" Content="Start" Click="StartButton" />
 
 
                 <ProgressBar Height="10" Name="pbStatus" Minimum="0" Maximum="100" Value="{Binding Progress}"/>

@@ -4,14 +4,15 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace LAB_V2.Worker
 {
     public class Copier
     {
-        public static MainWindow mainWindow = new MainWindow();
-        public static Builder builder = new Builder();
-
+        public MainWindow mainWindow;
+        public Builder builder;
+        public GitManager gitManager;
 
         private static string DevPortalBuildPath = "C:\\OmniTool\\DP_TSC_DEV\\DevPortal_FormDesigner\\Src\\Clients\\mwclient"; //FormDesigner/MenuDesigner
         //TODO Do proměnných z JSONu
@@ -43,6 +44,59 @@ namespace LAB_V2.Worker
                 {
                     Directory.CreateDirectory(destFile.DirectoryName);
                     originalFile.CopyTo(destFile.FullName, false);
+                }
+            }
+        }
+
+        public void CopyAll(string branch, string repository, bool clientOrBin, string localAppPath, bool StartButton)
+        {
+            string? whereToBuildPath = null;
+            string? repo = repository;
+            if (StartButton)
+            {
+                try
+                {
+                    if (!string.IsNullOrEmpty(mainWindow.LastNetBuildPath) && !string.IsNullOrEmpty(localAppPath))
+                    {
+                        if (mainWindow.AllCheckbox.IsChecked == true) { Copyfiles(mainWindow.LastNetBuildPath, localAppPath); }
+
+                        else if (mainWindow.JustBinCheckbox.IsChecked == true) { Copyfiles(mainWindow.LastNetBuildPath + "\\bin", localAppPath + "\\bin"); }
+                    }
+
+
+                    if (repository != null)
+                    {
+                        gitManager.FetchAndCheckout(branch, repository);
+
+
+                        builder.BuildCurrentBranch(repository);
+
+
+                        Application.Current.Dispatcher.Invoke(new Action(() =>
+                        {
+                            mainWindow.FileName.Content = "App changes built...";
+                            mainWindow.pbStatus.Value = 75;
+                            mainWindow.FileName.Content = "Starting to Copy files to desired destination...";
+                        }));
+
+                    }
+
+                    if (repo != null)
+                    {
+                        if (repo.Equals(MyDesk.Key)) { whereToBuildPath = MyDesk.BuildPath; };
+                        if (repo.Equals(MultiWeb.Key)) { whereToBuildPath = MultiWeb.BuildPath; };
+                        if (repo.Equals(FormDesigner.Key)) { whereToBuildPath = FormDesigner.BuildPath; };
+                        if (repo.Equals(MenuDesigner.Key)) { whereToBuildPath = MenuDesigner.BuildPath; };
+                        {
+                            if (clientOrBin) { Copyfiles(whereToBuildPath, localAppPath + "\\client"); }
+
+                            else if (!clientOrBin) { Copyfiles(whereToBuildPath, localAppPath + "\\bin"); }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("An error occurred: " + ex.Message);
                 }
             }
         }

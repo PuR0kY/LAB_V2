@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using LAB_V2.Worker;
+using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,10 +18,21 @@ namespace LAB_V2
     /// </summary>
     public partial class MainWindow : Window
     {
+        public string LastNetBuildPath;
+
         public MainWindow()
         {
             InitializeComponent();
         }
+
+        public void StartButton(object sender, RoutedEventArgs e)
+        {
+            bool start = true;
+            WorkerClass worker = new WorkerClass();
+            worker.Run(PRLink.Text, Start.IsEnabled, LocalApps.Text, start);
+        }
+
+
         private void LoadLNBs()
         {
             string[] arrayOfLNBs = {
