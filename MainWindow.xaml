@@ -5,55 +5,122 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LAB_V2"
         mc:Ignorable="d"
-        Title="LAB" Height="400" Width="450">
-    <Grid>
-        <StackPanel Height="350" VerticalAlignment="Center">
-            <StackPanel Margin="5" Height="60" Width="300" VerticalAlignment="Top" HorizontalAlignment="Center">
-                <Label HorizontalAlignment="Center">LAB Tool</Label>
-                <TextBlock>LNB:</TextBlock>
-                <ComboBox IsEditable="True" Name="LNBs"/>
-            </StackPanel>
+        ResizeMode="NoResize"        
+        Title="LAB" Height="600" Width="600"
+        Margin="0"
+        WindowStartupLocation ="CenterScreen">
+    <Window.Resources>
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
+        <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
+        <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6"/>
+        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
+        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
+        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
+        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+        <Style x:Key="ButtonStyle1" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
 
-            <StackPanel Orientation="Horizontal" Width="150" Height="80">
+    <Grid Cursor="Hand" AutomationProperties.Name="OpenSettingsButton">
 
-                <StackPanel Width="100" Height="35">
-                    <CheckBox IsChecked="False" x:Name="AllCheckbox" Content="All files"/>
-                    <CheckBox IsChecked="False" x:Name="JustBinCheckbox" Content="Bin"/>
-                </StackPanel>
-                <StackPanel x:Name="Versions" Height="36" Width="100">
-                    <CheckBox x:Name="CheckboxDEV" IsChecked="False" Content="DEV"/>
-                    <CheckBox x:Name="Checkbox22" IsChecked="False" Content="22.01"/>
-                </StackPanel>
-            </StackPanel>
+        <StackPanel Height="50" Margin="0,0,0,477" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Image x:Name="Logo" Source="LAB_icon.ico" Width="45" Height="45" VerticalAlignment="Top" Stretch="Fill"  HorizontalAlignment="Center">
+                <Image.OpacityMask>
+                    <ImageBrush ImageSource="/LAB_icon.ico"/>
+                </Image.OpacityMask>
+            </Image>
+            <Label VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="DemiBold" FontSize="30">LAB</Label>
+        </StackPanel>
 
-            <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="300" Height="220" >
-                <!--<TextBlock Margin="0,10,0,0">Repository:</TextBlock>
-                <ComboBox IsEditable="True" Name="Repository"/>-->
-                <TextBlock Margin="0,10,0,0">Pull Request URL link:</TextBlock>
-                <ComboBox IsEditable="True" Name="PRLink"/>
+        <Button Visibility="Collapsed" Style="{DynamicResource ButtonStyle1}" Background="#063cd1" Foreground="White" FontWeight="Bold" FontFamily="Arial" Margin="0,30,32,0" x:Name="OpenSettingsButton" Click="OpenSettings" Height="25" Width="60" VerticalAlignment="Top" HorizontalAlignment="Right">Settings</Button>
+        <Button Style="{DynamicResource ButtonStyle1}" Background="#063cd1" Foreground="White" FontWeight="Bold" FontFamily="Arial" Margin="0,30,32,0" x:Name="OpenSettingsFromToButton" Click="OpenSettingsFromToButton_Click" Height="25" Width="60" VerticalAlignment="Top" HorizontalAlignment="Right">Settings</Button>
+        <Button Style="{DynamicResource ButtonStyle1}" Background="#063cd1" Foreground="White" FontWeight="Bold" FontFamily="Arial" Margin="0,60,32,0" x:Name="OpenScripter" Click="OpenScripter_Click" Height="25" Width="60" VerticalAlignment="Top" HorizontalAlignment="Right">Scripter</Button>
 
-                <CheckBox IsChecked="False" x:Name="ClientCheckbox">Client</CheckBox>
-                <CheckBox IsChecked="False" x:Name="BinCheckbox">Bin</CheckBox>
+        <StackPanel Margin="0,97,0,0" Height="58" Width="300" VerticalAlignment="Top" HorizontalAlignment="Center">
+            <TextBlock><Run Text="Select job:"/></TextBlock>
+            <ComboBox IsEditable="True" x:Name="ComboJobs"/>
+        </StackPanel>
 
-                <!--<TextBlock Margin="0,10,0,0">Branch name:</TextBlock>
-                <ComboBox IsEditable="True" x:Name="BranchName"></ComboBox>-->
+        <StackPanel Width="400" Orientation="Horizontal" Margin="100,160,100,360">
+            <Label Margin="20,0" Content="PR" Height="30"/>
+            <CheckBox Margin="20,0" x:Name="usePullRequest" Checked="usePullRequest_Checked" Height="20" />
 
-                <TextBlock Margin="0,10,0,0">Path to Where to Copy:</TextBlock>
-                <ComboBox IsEditable="True" x:Name="LocalApps"/>
+            <Label Content="TwoBranches" Margin="0" Height="30"/>
+            <CheckBox Margin="20,0" x:Name="TwoBranchMerger" Checked="TwoBranchMerger_Checked" Height="20" />
 
-                <Button x:Name="Start" Content="Start" Click="StartButton" />
+            <Label Content="From To" Margin="0" Height="30"/>
+            <CheckBox Margin="20,0" x:Name="FromToCheckBox" Checked="FromToCheckBox_Checked" Height="20" />
+        </StackPanel>
 
+        <StackPanel Visibility="Collapsed" x:Name="TwoBrancher" HorizontalAlignment="Center" Width="300" Margin="0,237,0,169" >
+            <Label>PR Target:</Label>
+            <TextBox x:Name="TargetBranch"/>
+            <Label>PR to Merge:</Label>
+            <TextBox x:Name="BranchToMerge"/>
+            <Button IsEnabled="True" Style="{DynamicResource ButtonStyle1}" Background="#063cd1" Foreground="White" FontWeight="Bold" FontFamily="Arial" Height="25" Width="100" Margin="0,20,0,0" x:Name="StartMerger" Content="Start" Click="StartMerger_Click"/>
+        </StackPanel>
 
-                <ProgressBar Height="10" Name="pbStatus" Minimum="0" Maximum="100" Value="{Binding Progress}"/>
-                <Label Name="FileName" Content="{Binding ProgressText}"/>
+        <StackPanel Visibility="Collapsed" x:Name="FromToPanel" HorizontalAlignment="Center" Width="300" Margin="0,239,0,148" >
+            <Label>From -> To Job:</Label>
+            <ListBox x:Name="FromToJobs" SelectionChanged="FromToJobs_SelectionChanged" Height="100"/>
+            <Button IsEnabled="False" Style="{DynamicResource ButtonStyle1}" Background="#063cd1" Foreground="White" FontWeight="Bold" FontFamily="Arial" Height="25" Margin="0,20,0,0" Width="100" x:Name="StartFromTo" Content="Start" Click="StartFromTo_Click"/>
+        </StackPanel>
 
-                <TextBlock x:Name="Done" IsEnabled="True"></TextBlock>
-            </StackPanel>
+        <StackPanel Visibility="Collapsed"  x:Name="PullRequest" HorizontalAlignment="Center" Width="300" Height="150" Margin="0,257,0,177" >
+            <TextBlock Margin="0,10,0,0"><Run Text="Pull Request URL link:"/></TextBlock>
+            <ComboBox IsEditable="True" x:Name="PRLink"/>
+            <Button Style="{DynamicResource ButtonStyle1}" Background="#063cd1" Foreground="White" FontWeight="Bold" FontFamily="Arial" Height="25" Margin="0,20,0,0" Width="100" x:Name="Start" Content="Start" Click="StartButton"/>
+        </StackPanel>
 
-            <StackPanel/>
-            <!--<Button x:Name="LoadBranches" Click="GitThings" RenderTransformOrigin="2.275,11.002" Grid.Column="1" Margin="30,205,62,185" FontSize="10">Load Branches</Button>-->
-            <!--<Button x:Name="CheckoutBranch" Click="FetchAndCheckout" RenderTransformOrigin="2.275,11.002" Grid.Column="1" Margin="30,234,62,156"  FontSize="8"> Fetch and Checkout</Button>-->
-            <!--<Button x:Name="BuildBranch" Click="BuildCurrentBranch" RenderTransformOrigin="2.275,11.002" Grid.Column="1" Margin="30,263,62,127" FontSize="8">Build Current Branch</Button>-->
+        <StackPanel Width="400" Margin="100,463,100,48">
+            <ProgressBar Width="300" Height="15" x:Name="pbStatus" Minimum="0" Maximum="100" Value="{Binding Progress}"/>
+            <Label Width="300" x:Name="FileName" Height="48" Content="{Binding ProgressText}"/>
         </StackPanel>
     </Grid>
 </Window>

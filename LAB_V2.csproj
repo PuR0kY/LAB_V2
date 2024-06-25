@@ -6,10 +6,49 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>bin\Debug\net8.0-windows\LAB_icon.ico</ApplicationIcon>
+    <AssemblyName>LAB</AssemblyName>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+	  <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="LAB_icon.ico" />
+    <None Remove="settings_icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="bin\Debug\net8.0-windows\LAB_icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="JetBrains.Annotations" Version="2023.3.0" />
     <PackageReference Include="LibGit2Sharp" Version="0.27.0" />
+    <PackageReference Include="Microsoft.PowerShell.Commands.Diagnostics" Version="7.4.2" />
+    <PackageReference Include="Microsoft.PowerShell.Native" Version="7.4.0" />
+    <PackageReference Include="Microsoft.PowerShell.SDK" Version="7.4.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="System.Management" Version="8.0.0" />
+    <PackageReference Include="System.Management.Automation" Version="7.4.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="LAB_icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 
 </Project>
